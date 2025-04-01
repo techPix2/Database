@@ -118,3 +118,47 @@ CREATE TABLE Measure(
 		REFERENCES Component(idComponent)
 );
 
+CREATE TABLE Alert(
+	idAlert INT PRIMARY KEY AUTO_INCREMENT,
+    current DOUBLE,
+	type VARCHAR(20),
+    fkMeasure INT,
+	datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fkMeasure_Alert FOREIGN KEY (fkMeasure)
+		REFERENCES Measure(idMeasure)
+);
+
+
+-- Tabelas estatisticas (Exemplo) Todas as tabelas são exemplos e terão os campos de acordo com as métricas dos componentes--
+
+CREATE TABLE process_CompanyName_Machine(
+	idProcess INT PRIMARY KEY AUTO_INCREMENT,
+    processCode VARCHAR(45),
+    name VARCHAR(100),
+    cpuPercent DOUBLE,
+    ramPercent DOUBLE,
+    ramUsed BIGINT
+);
+
+CREATE TABLE data_CompanyName_Machine(
+	idData INT PRIMARY KEY AUTO_INCREMENT,
+    cpuPercent DOUBLE,
+    cpuUsed BIGINT,
+    ramPercent DOUBLE,
+    ramUsed BIGINT,
+    diskPercent DOUBLE,
+    diskUsed BIGINT,
+    datetime DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE alert_CompanyName_Machine(
+	idAlert INT PRIMARY KEY AUTO_INCREMENT,
+    type VARCHAR(45),
+    cpuPercent DOUBLE,
+    cpuUsed BIGINT,
+    ramPercent DOUBLE,
+    ramUsed BIGINT,
+    diskPercent DOUBLE,
+    diskUsed BIGINT,
+    datetime DATETIME DEFAULT CURRENT_TIMESTAMP
+);
