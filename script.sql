@@ -6,7 +6,7 @@ USE TechPix;
 
 CREATE TABLE City(
 	idCity INT PRIMARY KEY AUTO_INCREMENT,
-    city VARCHAR(45)
+    name VARCHAR(45)
 );
 
 CREATE TABLE Adress(
@@ -20,30 +20,13 @@ CREATE TABLE Adress(
 		REFERENCES City(idCity)
 );
 
-CREATE TABLE Contact(
-	idContact INT PRIMARY KEY AUTO_INCREMENT,
-    email VARCHAR(100),
-    phone CHAR(11)
-);
-
-CREATE TABLE Photo(
-	idPhoto INT PRIMARY KEY AUTO_INCREMENT,
-    path VARCHAR(156)
-);
-
 CREATE TABLE Company(
 	idCompany INT PRIMARY KEY AUTO_INCREMENT,
     socialReason VARCHAR(100),
     cnpj CHAR(14),
-    fkContact INT,
     fkAdress INT,
-    fkPhoto INT,
-    CONSTRAINT fkContact_Company FOREIGN KEY (fkContact)
-		REFERENCES Contact(idContact),
 	CONSTRAINT fkAdress_Company FOREIGN KEY (fkAdress)
-		REFERENCES Adress(idAdress),
-	CONSTRAINT fkPhoto_Company FOREIGN KEY (fkPhoto)
-		REFERENCES Photo(idPhoto)
+		REFERENCES Adress(idAdress)
 );
 
 -- Employer --
@@ -52,27 +35,16 @@ CREATE TABLE Employer(
 	idEmployer INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(45),
     cpf CHAR(11),
+    email VARCHAR(100),
+    photoPath VARCHAR(100),
     role VARCHAR(45),
-    fkContact INT,
+    password VARCHAR(45),
     fkAdmin INT,
-    fkPhoto INT,
     fkCompany INT,
-    CONSTRAINT fkContact_Employer FOREIGN KEY (fkContact)
-		REFERENCES Contact(idContact),
 	CONSTRAINT fkAdmin_Employer FOREIGN KEY (fkAdmin)
 		REFERENCES Employer(idEmployer),
-	CONSTRAINT fkPhoto_Employer FOREIGN KEY (fkPhoto)
-		REFERENCES Photo(idPhoto),
 	CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
 		REFERENCES Company(idCompany)
-);
-
-CREATE TABLE Login(
-	idLogin INT PRIMARY KEY AUTO_INCREMENT,
-    password VARCHAR(45),
-    fkEmployer INT,
-    CONSTRAINT fkEmployer_Login FOREIGN KEY (fkEmployer)
-		REFERENCES Employer(idEmployer)
 );
 
 CREATE TABLE AcessLog(
@@ -93,7 +65,7 @@ CREATE TABLE Server(
     status VARCHAR(45),
     position VARCHAR(45),
     mobuId VARCHAR(100) UNIQUE KEY,
-    situation VARCHAR(45),
+    operationalSystem VARCHAR(45),
     fkCompany INT,
     CONSTRAINT fkCompany_Server FOREIGN KEY (fkCompany)
 		REFERENCES Company(idCompany)
