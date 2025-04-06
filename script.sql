@@ -36,6 +36,7 @@ CREATE TABLE Server(
     status VARCHAR(45),
     position INT,
     mobuId VARCHAR(100),
+    operationalSystem VARCHAR(45),
     active TINYINT,
     fkCompany INT,
     CONSTRAINT fkCompany_Server FOREIGN KEY (fkCompany)
@@ -57,16 +58,6 @@ CREATE TABLE Employer(
     CONSTRAINT fkAdmin_Employer FOREIGN KEY (fkAdmin)
         REFERENCES Employer(idEmployer)
 );
-
-CREATE TABLE AccessLog(
-    idAccessLog INT PRIMARY KEY AUTO_INCREMENT,
-    datetime DATETIME,
-    type VARCHAR(45),
-    fkEmployer INT,
-    CONSTRAINT fkEmployer_AccessLog FOREIGN KEY (fkEmployer)
-        REFERENCES Employer(idEmployer)
-);
-
 CREATE TABLE ProcessMachine(
     idProcess INT PRIMARY KEY AUTO_INCREMENT,
     processCode VARCHAR(45),
@@ -125,3 +116,24 @@ CREATE TABLE AlertMachine(
     CONSTRAINT fkMeasure_AlertMachine FOREIGN KEY (fkMeasure)
         REFERENCES Measure(idMeasure)
 );
+
+SELECT 
+    idServer,
+    hostName,
+    macAddress,
+    status,
+    position,
+    mobuId,
+    operationalSystem,
+    fkCompany
+FROM Server
+WHERE position = ''; 
+
+SELECT * 
+FROM AlertMachine 
+JOIN Measure ON AlertMachine.fkMeasure = Measure.idMeasure 
+JOIN Component ON Measure.fkComponent = Component.idComponent 
+JOIN Server ON Component.fkServer = Server.idServer 
+WHERE Server.fkCompany = 1
+AND position = 1
+AND AlertMachine.dateTime >= DATE_SUB(NOW(), INTERVAL 30 MONTH);
