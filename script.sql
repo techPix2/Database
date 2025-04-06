@@ -2,135 +2,126 @@ DROP DATABASE IF EXISTS TechPix;
 CREATE DATABASE IF NOT EXISTS TechPix;
 USE TechPix;
 
--- Company --
 
 CREATE TABLE City(
-	idCity INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(45)
+    idCity INT PRIMARY KEY AUTO_INCREMENT,
+    city VARCHAR(45)
 );
 
-CREATE TABLE Adress(
-	idAdress INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Address(
+    idAddress INT PRIMARY KEY AUTO_INCREMENT,
     street VARCHAR(100),
-    number VARCHAR(5),
-    cep CHAR(8),
-	district VARCHAR(45),
-	fkCity INT,
-    CONSTRAINT fkCity_Adress FOREIGN KEY (fkCity) 
-		REFERENCES City(idCity)
+    number VARCHAR(48),
+    postalCode VARCHAR(10), 
+    district VARCHAR(45),
+    fkCity INT,
+    CONSTRAINT fkCity_Address FOREIGN KEY (fkCity) 
+        REFERENCES City(idCity)
 );
 
 CREATE TABLE Company(
-	idCompany INT PRIMARY KEY AUTO_INCREMENT,
+    idCompany INT PRIMARY KEY AUTO_INCREMENT,
     socialReason VARCHAR(100),
-    cnpj CHAR(14),
-    fkAdress INT,
-	CONSTRAINT fkAdress_Company FOREIGN KEY (fkAdress)
-		REFERENCES Adress(idAdress)
+    cnpj CHAR(14), 
+    active TINYINT,  
+    fkAddress INT,
+    CONSTRAINT fkAddress_Company FOREIGN KEY (fkAddress)
+        REFERENCES Address(idAddress)
 );
-
--- Employer --
-
-CREATE TABLE Employer(
-	idEmployer INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(45),
-    cpf CHAR(11),
-    email VARCHAR(100),
-    photoPath VARCHAR(100),
-    role VARCHAR(45),
-    password VARCHAR(45),
-    fkAdmin INT,
-    fkCompany INT,
-	CONSTRAINT fkAdmin_Employer FOREIGN KEY (fkAdmin)
-		REFERENCES Employer(idEmployer),
-	CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
-		REFERENCES Company(idCompany)
-);
-
-CREATE TABLE AcessLog(
-	idAcessLog INT PRIMARY KEY AUTO_INCREMENT,
-	dateTime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    type VARCHAR(10),
-    fkEmployer INT,
-    CONSTRAINT fkEmployer_AcessLog FOREIGN KEY (fkEmployer)
-		REFERENCES Employer(idEmployer)
-);
-
--- Machine --
 
 CREATE TABLE Server(
-	idServer INT PRIMARY KEY AUTO_INCREMENT,
-    hostName VARCHAR(45),
-    macAdress CHAR(17),
+    idServer INT PRIMARY KEY AUTO_INCREMENT,
+    healthcare VARCHAR(45),
+    macAddress CHAR(17),
     status VARCHAR(45),
-    position VARCHAR(45),
-    mobuId VARCHAR(100) UNIQUE KEY,
-    operationalSystem VARCHAR(45),
+    position INT,
+    module VARCHAR(100),
+    active TINYINT,
     fkCompany INT,
     CONSTRAINT fkCompany_Server FOREIGN KEY (fkCompany)
-		REFERENCES Company(idCompany)
+        REFERENCES Company(idCompany)
 );
 
-CREATE TABLE Component(
-	idComponent INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE Employer(
+    idEmployer INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(45),
+    cpf CHAR(11),  
+    role VARCHAR(45),
+    fkCompany INT,
+    fkAdmin INT,
+    password VARCHAR(45),
+    physicalPath VARCHAR(100),  
+    active TINYINT,
+    CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
+        REFERENCES Company(idCompany),
+    CONSTRAINT fkAdmin_Employer FOREIGN KEY (fkAdmin)
+        REFERENCES Employer(idEmployer)
+);
+
+CREATE TABLE AccessLog(
+    idAccessLog INT PRIMARY KEY AUTO_INCREMENT,
+    datetime DATETIME,
     type VARCHAR(45),
-    description VARCHAR(100),
-    serial VARCHAR(45) UNIQUE KEY,
+    fkEmployer INT,
+    CONSTRAINT fkEmployer_AccessLog FOREIGN KEY (fkEmployer)
+        REFERENCES Employer(idEmployer)
+);
+
+CREATE TABLE ProcessMachine(
+    idProcess INT PRIMARY KEY AUTO_INCREMENT,
+    processCode VARCHAR(45),
+    name VARCHAR(45),
+    gpuProtein DECIMAL(5,2),  
+    manProtein DECIMAL(5,2),   
+    amuUsed BIGINT,            
+    fkMeasure INT,
     fkServer INT,
+    CONSTRAINT fkServer_ProcessMachine FOREIGN KEY (fkServer)
+        REFERENCES Server(idServer)
+);
+CREATE TABLE Component (
+    idComponent INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(45),
+    type VARCHAR(45),
+    description VARCHAR(45),
+    fkServer INT,
+    serial VARCHAR(100),
     CONSTRAINT fkServer_Component FOREIGN KEY (fkServer)
-		REFERENCES Server(idServer)
+        REFERENCES Server(idServer)
 );
 
 CREATE TABLE Measure(
-	idMeasure INT PRIMARY KEY AUTO_INCREMENT,
-    measure VARCHAR(45),
-    limiter INT,
+    idMeasure INT PRIMARY KEY AUTO_INCREMENT,
+    measureType VARCHAR(45),
+    limiterValue INT,
     fkComponent INT,
-    CONSTRAINT fkComponent_Measure FOREIGN KEY (fkComponent)
-		REFERENCES Component(idComponent)
+    CONSTRAINT fkComponent_Measure FOREIGN KEY (fkComponent) REFERENCES Component(idComponent)
 );
 
-CREATE TABLE Alert(
-	idAlert INT PRIMARY KEY AUTO_INCREMENT,
-    current DOUBLE,
-	type VARCHAR(20),
+CREATE TABLE DataMachine(
+    idDataMachine INT PRIMARY KEY AUTO_INCREMENT,
+    gpuProtein INT,
+    gpuFreq INT,
+    manProtein INT,
+    amuUsed BIGINT,
+    diskProtein INT,
+    diskUsed BIGINT,
+    dateTime DATETIME,
     fkMeasure INT,
-	datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fkMeasure_Alert FOREIGN KEY (fkMeasure)
-		REFERENCES Measure(idMeasure)
+    CONSTRAINT fkMeasure_DataMachine FOREIGN KEY (fkMeasure) REFERENCES Measure(idMeasure)
 );
 
-
--- Tabelas estatisticas (Exemplo) Todas as tabelas são exemplos e terão os campos de acordo com as métricas dos componentes--
-
-CREATE TABLE process_CompanyName_Machine(
-	idProcess INT PRIMARY KEY AUTO_INCREMENT,
-    processCode VARCHAR(45),
-    name VARCHAR(100),
-    cpuPercent DOUBLE,
-    ramPercent DOUBLE,
-    ramUsed BIGINT
-);
-
-CREATE TABLE data_CompanyName_Machine(
-	idData INT PRIMARY KEY AUTO_INCREMENT,
-    cpuPercent DOUBLE,
-    cpuUsed BIGINT,
-    ramPercent DOUBLE,
-    ramUsed BIGINT,
-    diskPercent DOUBLE,
-    diskUsed BIGINT,
-    datetime DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE alert_CompanyName_Machine(
-	idAlert INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE AlertMachine(
+    idAlertMachine INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(45),
-    cpuPercent DOUBLE,
-    cpuUsed BIGINT,
-    ramPercent DOUBLE,
-    ramUsed BIGINT,
-    diskPercent DOUBLE,
+    gpuProtein DOUBLE,
+    gpuFreq INT,
+    manProtein DOUBLE,
+    amuUsed BIGINT,
+    diskProtein INT,
     diskUsed BIGINT,
-    datetime DATETIME DEFAULT CURRENT_TIMESTAMP
+    dateTime TIMESTAMP,
+    fkMeasure INT,
+    CONSTRAINT fkMeasure_AlertMachine FOREIGN KEY (fkMeasure)
+        REFERENCES Measure(idMeasure)
 );
