@@ -71,6 +71,23 @@ CREATE TABLE Server(
 		REFERENCES Company(idCompany)
 );
 
+
+select * from Server;
+
+-- filtro de servidores por região, "position" está como varchar então quando for receber os dados e a entidade já estiver populada, mudar o parametrô do "where" relacionado as "informações configuradas". 
+SELECT 
+    idServer,
+    hostName,
+    macAdress,
+    status,
+    position,
+    mobuId,
+    operationalSystem,
+    fkCompany
+FROM Server
+WHERE position = '';  
+
+
 CREATE TABLE Component(
 	idComponent INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(45),
