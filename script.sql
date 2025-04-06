@@ -31,11 +31,11 @@ CREATE TABLE Company(
 
 CREATE TABLE Server(
     idServer INT PRIMARY KEY AUTO_INCREMENT,
-    healthcare VARCHAR(45),
+    hostName VARCHAR(45),
     macAddress CHAR(17),
     status VARCHAR(45),
     position INT,
-    module VARCHAR(100),
+    mobuId VARCHAR(100),
     active TINYINT,
     fkCompany INT,
     CONSTRAINT fkCompany_Server FOREIGN KEY (fkCompany)
@@ -50,7 +50,7 @@ CREATE TABLE Employer(
     fkCompany INT,
     fkAdmin INT,
     password VARCHAR(45),
-    physicalPath VARCHAR(100),  
+    photoPath VARCHAR(100),  
     active TINYINT,
     CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
         REFERENCES Company(idCompany),
@@ -71,14 +71,14 @@ CREATE TABLE ProcessMachine(
     idProcess INT PRIMARY KEY AUTO_INCREMENT,
     processCode VARCHAR(45),
     name VARCHAR(45),
-    gpuProtein DECIMAL(5,2),  
-    manProtein DECIMAL(5,2),   
-    amuUsed BIGINT,            
-    fkMeasure INT,
+    cpuPercent DECIMAL(5,2),  
+    ramPercent DECIMAL(5,2),   
+    ramUsed BIGINT,        
     fkServer INT,
     CONSTRAINT fkServer_ProcessMachine FOREIGN KEY (fkServer)
         REFERENCES Server(idServer)
 );
+
 CREATE TABLE Component (
     idComponent INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(45),
@@ -100,11 +100,11 @@ CREATE TABLE Measure(
 
 CREATE TABLE DataMachine(
     idDataMachine INT PRIMARY KEY AUTO_INCREMENT,
-    gpuProtein INT,
-    gpuFreq INT,
-    manProtein INT,
-    amuUsed BIGINT,
-    diskProtein INT,
+    cpuPercent INT,
+    cpuFreq INT,
+    ramPercent INT,
+    ramUsed BIGINT,
+    diskPercent INT,
     diskUsed BIGINT,
     dateTime DATETIME,
     fkMeasure INT,
@@ -114,11 +114,11 @@ CREATE TABLE DataMachine(
 CREATE TABLE AlertMachine(
     idAlertMachine INT PRIMARY KEY AUTO_INCREMENT,
     type VARCHAR(45),
-    gpuProtein DOUBLE,
-    gpuFreq INT,
-    manProtein DOUBLE,
-    amuUsed BIGINT,
-    diskProtein INT,
+    cpuPercent DOUBLE,
+    cpuFreq INT,
+    ramPercent DOUBLE,
+    ramUsed BIGINT,
+    diskPercent INT,
     diskUsed BIGINT,
     dateTime TIMESTAMP,
     fkMeasure INT,
