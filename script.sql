@@ -116,6 +116,14 @@ CREATE TABLE AlertMachine(
     CONSTRAINT fkMeasure_AlertMachine FOREIGN KEY (fkMeasure)
         REFERENCES Measure(idMeasure)
 );
+CREATE TABLE AccessLog(
+    idAccessLog INT PRIMARY KEY AUTO_INCREMENT,
+    datetime DATETIME,
+    type VARCHAR(45),
+    fkEmployer INT,
+    CONSTRAINT fkEmployer_AccessLog FOREIGN KEY (fkEmployer)
+        REFERENCES Employer(idEmployer)
+);
 
 SELECT 
     idServer,
