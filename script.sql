@@ -50,6 +50,7 @@ CREATE TABLE Employer(
     role VARCHAR(45),
     fkCompany INT,
     fkAdmin INT,
+    email varchar(256),
     password VARCHAR(45),
     photoPath VARCHAR(100),  
     active TINYINT,
