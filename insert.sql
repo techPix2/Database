@@ -1,12 +1,12 @@
 USE TechPix;
 
-INSERT INTO City (name) VALUES
+INSERT INTO City (city) VALUES
 ('São Paulo');
 
-INSERT INTO Adress (street, number, cep, district, fkCity) VALUES
+INSERT INTO Address (street, number, postalCode, district, fkCity) VALUES
 ('Rua Haddock Lobo', '605', '03212321', 'Bela Vista', 1);
 
-INSERT INTO Company (socialReason, cnpj, fkAdress) VALUES
+INSERT INTO Company (socialReason, cnpj, fkAddress) VALUES
 ("TechPix", "12345678998745", 1);
 
 INSERT INTO Employer (name, cpf, email, role, fkCompany, password) VALUES
