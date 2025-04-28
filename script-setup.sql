@@ -72,6 +72,7 @@ CREATE TABLE Component (
     type VARCHAR(45),
     description VARCHAR(45),
     fkServer INT,
+    serial VARCHAR(100),
     active tinyint,
     CONSTRAINT fkServer_Component FOREIGN KEY (fkServer)
         REFERENCES Server(idServer)
