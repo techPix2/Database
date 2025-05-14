@@ -2,9 +2,9 @@ DROP DATABASE IF EXISTS TechPix;
 CREATE DATABASE IF NOT EXISTS TechPix;
 USE TechPix;
 
-CREATE USER 'techpix_insert'@'%' IDENTIFIED BY 'techpix#2024';
+CREATE USER IF NOT EXISTS'techpix_insert'@'%' IDENTIFIED BY 'techpix#2024';
 GRANT ALL PRIVILEGES ON * TO 'techpix_insert';
-CREATE USER 'techpix_select'@'%' IDENTIFIED BY 'techpix#2024';
+CREATE USER  IF NOT EXISTS'techpix_select'@'%' IDENTIFIED BY 'techpix#2024';
 GRANT ALL PRIVILEGES ON * TO 'techpix_select';
 
 FLUSH PRIVILEGES;
