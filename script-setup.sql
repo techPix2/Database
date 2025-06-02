@@ -109,6 +109,12 @@ CREATE TABLE AccessLog(
         REFERENCES Employer(idEmployer)
 );
 
+CREATE TABLE ProcessLog(
+nameProcess VARCHAR(45),
+dtTime DATETIME,
+cpu_percent INT
+); 
+
 SELECT * 
 FROM AlertMachine 
 JOIN Measure ON AlertMachine.fkMeasure = Measure.idMeasure 
@@ -126,3 +132,12 @@ JOIN Server ON Component.fkServer = Server.idServer
 WHERE Server.fkCompany = 1
 AND idServer = 1
 AND AlertMachine.dateTime >= DATE_SUB(NOW(), INTERVAL 30 MONTH);
+
+
+
+
+
+
+
+
+
