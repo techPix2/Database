@@ -1,7 +1,6 @@
 DROP DATABASE IF EXISTS TechPix;
 CREATE DATABASE IF NOT EXISTS TechPix;
 USE TechPix;
-SELECT * FROM Employer;
 CREATE TABLE City(
                      idCity INT PRIMARY KEY AUTO_INCREMENT,
                      city VARCHAR(45)
