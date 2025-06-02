@@ -2,10 +2,11 @@ DROP DATABASE IF EXISTS TechPix;
 CREATE DATABASE IF NOT EXISTS TechPix;
 USE TechPix;
 
-CREATE USER IF NOT EXISTS'techpix_insert'@'%' IDENTIFIED BY 'techpix#2024';
-GRANT ALL PRIVILEGES ON * TO 'techpix_insert';
-CREATE USER  IF NOT EXISTS'techpix_select'@'%' IDENTIFIED BY 'techpix#2024';
-GRANT ALL PRIVILEGES ON * TO 'techpix_select';
+CREATE USER IF NOT EXISTS 'techpix_insert'@'%' IDENTIFIED BY 'techpix#2024';
+GRANT ALL PRIVILEGES ON *.* TO 'techpix_insert'@'%';
+
+CREATE USER IF NOT EXISTS 'techpix_select'@'%' IDENTIFIED BY 'techpix#2024';
+GRANT ALL PRIVILEGES ON *.* TO 'techpix_select'@'%';
 
 FLUSH PRIVILEGES;
 
@@ -56,7 +57,7 @@ CREATE TABLE Employer(
     role VARCHAR(45),
     fkCompany INT,
     fkAdmin INT,
-    email varchar(256),
+    email VARCHAR(256),
     password VARCHAR(45),
     photoPath VARCHAR(100),  
     active TINYINT,
@@ -73,7 +74,7 @@ CREATE TABLE Component (
     description VARCHAR(45),
     fkServer INT,
     serial VARCHAR(100),
-    active tinyint,
+    active TINYINT,
     CONSTRAINT fkServer_Component FOREIGN KEY (fkServer)
         REFERENCES Server(idServer)
 );
@@ -100,6 +101,7 @@ CREATE TABLE AlertMachine(
     CONSTRAINT fkMeasure_AlertMachine FOREIGN KEY (fkMeasure)
         REFERENCES Measure(idMeasure)
 );
+
 CREATE TABLE AccessLog(
     idAccessLog INT PRIMARY KEY AUTO_INCREMENT,
     datetime DATETIME,
@@ -110,13 +112,32 @@ CREATE TABLE AccessLog(
 );
 
 CREATE TABLE ProcessLog(
-nameProcess VARCHAR(45),
-dtTime DATETIME,
-cpu_percent INT,
-fkMachine INT,
-CONSTRAINT fkmachine FOREIGN KEY (fkMachine)
-        REFERENCES server(idServer)
-); 
+    nameProcess VARCHAR(45),
+    dtTime DATETIME,
+    cpu_percent INT,
+    fkMachine INT,
+    CONSTRAINT fkmachine FOREIGN KEY (fkMachine)
+        REFERENCES Server(idServer)
+);
+
+-- INSERTS para popular o banco com 1 Company e 1 Employer
+
+-- Inserir cidade
+INSERT INTO City (city) VALUES ('São Paulo');
+
+-- Inserir endereço
+INSERT INTO Address (street, number, postalCode, district, fkCity)
+VALUES ('Av. Paulista', '1000', '01310-100', 'Bela Vista', 1);
+
+-- Inserir empresa
+INSERT INTO Company (socialReason, cnpj, active, fkAddress)
+VALUES ('TechPix Ltda', '12345678000199', 1, 1);
+
+-- Inserir employer (sem fkAdmin inicialmente, pode ser NULL)
+INSERT INTO Employer (name, cpf, role, fkCompany, fkAdmin, email, password, photoPath, active)
+VALUES ('João Silva', '12345678901', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
+
+-- Consultas solicitadas
 
 SELECT * 
 FROM AlertMachine 
@@ -137,10 +158,4 @@ AND idServer = 1
 AND AlertMachine.dateTime >= DATE_SUB(NOW(), INTERVAL 30 MONTH);
 
 
-
-
-
-
-
-
-
+select * from employer;
