@@ -113,7 +113,7 @@ CREATE TABLE ProcessLog(
 nameProcess VARCHAR(45),
 dtTime DATETIME,
 cpu_percent INT,
-fkMachine INT
+fkMachine INT,
 CONSTRAINT fkmachine FOREIGN KEY (fkMachine)
         REFERENCES server(idServer)
 ); 
