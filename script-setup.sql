@@ -105,12 +105,12 @@ INSERT INTO Address (street, number, postalCode, district, fkCity)
 VALUES ('Av. Paulista', '1000', '01310-100', 'Bela Vista', 1);
 
 -- Inserir empresa
-INSERT INTO Company (socialReason, cnpj, active, fkAddress)
-VALUES ('TechPix Ltda', '12345678000199', 1, 1);
+INSERT INTO Company (socialReason, active, fkAddress)
+VALUES ('TechPix Ltda', 1, 1);
 
 -- Inserir employer (sem fkAdmin inicialmente, pode ser NULL)
-INSERT INTO Employer (name, cpf, role, fkCompany, fkAdmin, email, password, photoPath, active)
-VALUES ('João Silva', '12345678901', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
+INSERT INTO Employer (name,  role, fkCompany, fkAdmin, email, password, photoPath, active)
+VALUES ('João Silva', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
 
 
 DESC processLog;
