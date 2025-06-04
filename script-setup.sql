@@ -29,7 +29,6 @@ CREATE TABLE Address(
 CREATE TABLE Company(
     idCompany INT PRIMARY KEY AUTO_INCREMENT,
     socialReason VARCHAR(100),
-    cnpj CHAR(14),
     active TINYINT,
     fkAddress INT,
     CONSTRAINT fkAddress_Company FOREIGN KEY (fkAddress)
@@ -53,7 +52,6 @@ CREATE TABLE Server(
 CREATE TABLE Employer(
     idEmployer INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(45),
-    cpf CHAR(11),
     role VARCHAR(45),
     fkCompany INT,
     fkAdmin INT,
