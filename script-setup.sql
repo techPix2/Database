@@ -66,17 +66,6 @@ CREATE TABLE Employer(
     CONSTRAINT fkAdmin_Employer FOREIGN KEY (fkAdmin)
         REFERENCES Employer(idEmployer)
 );
-CREATE TABLE ProcessMachine(
-    idProcess INT PRIMARY KEY AUTO_INCREMENT,
-    processCode VARCHAR(45),
-    name VARCHAR(45),
-    cpuPercent DECIMAL(5,2),
-    ramPercent DECIMAL(5,2),
-    ramUsed BIGINT,
-    fkServer INT,
-    CONSTRAINT fkServer_ProcessMachine FOREIGN KEY (fkServer)
-        REFERENCES Server(idServer)
-);
 
 CREATE TABLE Component (
     idComponent INT PRIMARY KEY AUTO_INCREMENT,
@@ -88,20 +77,7 @@ CREATE TABLE Component (
     CONSTRAINT fkServer_Component FOREIGN KEY (fkServer) REFERENCES Server(idServer)
                            
 );
-CREATE TABLE AlertMachine(
-    idAlertMachine INT PRIMARY KEY AUTO_INCREMENT,
-    type VARCHAR(45),
-    cpuPercent DOUBLE,
-    cpuFreq INT,
-    ramPercent DOUBLE,
-    ramUsed BIGINT,
-    diskPercent INT,
-    diskUsed BIGINT,
-    dateTime TIMESTAMP,
-    fkComponent INT,
-    CONSTRAINT fkAlertMachine_Component FOREIGN KEY (fkComponent)
-    REFERENCES Component(idComponent)
-);
+
 CREATE TABLE AccessLog(
     idAccessLog INT PRIMARY KEY AUTO_INCREMENT,
     datetime DATETIME,
@@ -112,8 +88,9 @@ CREATE TABLE AccessLog(
 );
 
 CREATE TABLE ProcessLog(
+	idProcess INT PRIMARY KEY AUTO_INCREMENT,
     nameProcess VARCHAR(45),
-    dtTime DATETIME,
+    dtTime DATETIME DEFAULT CURRENT_TIMESTAMP,
     cpu_percent INT,
     fkMachine INT,
     CONSTRAINT fkmachine FOREIGN KEY (fkMachine)
@@ -138,6 +115,12 @@ INSERT INTO Employer (name, cpf, role, fkCompany, fkAdmin, email, password, phot
 VALUES ('João Silva', '12345678901', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
 
 
-
+DESC processLog;
 
 select * from employer;
+
+SELECT * FROM server;
+
+SHOW TABLES;
+
+DELETE FROM Server WHERE idServer = 1;
