@@ -116,3 +116,4 @@ SELECT * FROM Employer;
 SELECT * FROM Server;
 SHOW TABLES;
 DELETE FROM Server WHERE idServer = 1;
+
