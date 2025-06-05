@@ -55,9 +55,8 @@ CREATE TABLE Employer(
     role VARCHAR(45),
     fkCompany INT,
     fkAdmin INT,
-    email varchar(256),
+    email VARCHAR(256),
     password VARCHAR(45),
-    photoPath VARCHAR(100),
     active TINYINT,
     CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
         REFERENCES Company(idCompany),
@@ -73,7 +72,6 @@ CREATE TABLE Component (
     fkServer INT,
     serial VARCHAR(100),
     CONSTRAINT fkServer_Component FOREIGN KEY (fkServer) REFERENCES Server(idServer)
-                           
 );
 
 CREATE TABLE AccessLog(
@@ -86,7 +84,7 @@ CREATE TABLE AccessLog(
 );
 
 CREATE TABLE ProcessLog(
-	idProcess INT PRIMARY KEY AUTO_INCREMENT,
+    idProcess INT PRIMARY KEY AUTO_INCREMENT,
     nameProcess VARCHAR(45),
     dtTime DATETIME DEFAULT CURRENT_TIMESTAMP,
     cpu_percent INT,
@@ -109,16 +107,12 @@ INSERT INTO Company (socialReason, active, fkAddress)
 VALUES ('TechPix Ltda', 1, 1);
 
 -- Inserir employer (sem fkAdmin inicialmente, pode ser NULL)
-INSERT INTO Employer (name,  role, fkCompany, fkAdmin, email, password, photoPath, active)
-VALUES ('João Silva', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
+INSERT INTO Employer (name, role, fkCompany, fkAdmin, email, password, active)
+VALUES ('João Silva', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', 1);
 
-
-DESC processLog;
-
-select * from employer;
-
-SELECT * FROM server;
-
+-- Consultas exemplo
+DESC ProcessLog;
+SELECT * FROM Employer;
+SELECT * FROM Server;
 SHOW TABLES;
-
 DELETE FROM Server WHERE idServer = 1;
