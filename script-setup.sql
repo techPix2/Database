@@ -2,11 +2,8 @@ DROP DATABASE IF EXISTS TechPix;
 CREATE DATABASE IF NOT EXISTS TechPix;
 USE TechPix;
 
-CREATE USER IF NOT EXISTS 'techpix_insert'@'%' IDENTIFIED BY 'techpix#2024';
-GRANT ALL PRIVILEGES ON *.* TO 'techpix_insert'@'%';
-
-CREATE USER IF NOT EXISTS 'techpix_select'@'%' IDENTIFIED BY 'techpix#2024';
-GRANT ALL PRIVILEGES ON *.* TO 'techpix_select'@'%';
+CREATE USER IF NOT EXISTS 'techpixUser'@'%' IDENTIFIED BY 'techpix#2024';
+GRANT ALL PRIVILEGES ON *.* TO 'techpixUser'@'%';
 
 FLUSH PRIVILEGES;
 
@@ -57,7 +54,6 @@ CREATE TABLE Employer(
     fkAdmin INT,
     email varchar(256),
     password VARCHAR(45),
-    photoPath VARCHAR(100),
     active TINYINT,
     CONSTRAINT fkCompany_Employer FOREIGN KEY (fkCompany)
         REFERENCES Company(idCompany),
@@ -94,31 +90,3 @@ CREATE TABLE ProcessLog(
     CONSTRAINT fkmachine FOREIGN KEY (fkMachine)
         REFERENCES Server(idServer)
 );
-
--- INSERTS para popular o banco com 1 Company e 1 Employer
-
--- Inserir cidade
-INSERT INTO City (city) VALUES ('São Paulo');
-
--- Inserir endereço
-INSERT INTO Address (street, number, postalCode, district, fkCity)
-VALUES ('Av. Paulista', '1000', '01310-100', 'Bela Vista', 1);
-
--- Inserir empresa
-INSERT INTO Company (socialReason, cnpj, active, fkAddress)
-VALUES ('TechPix Ltda', '12345678000199', 1, 1);
-
--- Inserir employer (sem fkAdmin inicialmente, pode ser NULL)
-INSERT INTO Employer (name, cpf, role, fkCompany, fkAdmin, email, password, photoPath, active)
-VALUES ('João Silva', '12345678901', 'Administrador', 1, NULL, 'joao.silva@techpix.com', 'senha123', '/images/joao.jpg', 1);
-
-
-DESC processLog;
-
-select * from employer;
-
-SELECT * FROM server;
-
-SHOW TABLES;
-
-DELETE FROM Server WHERE idServer = 1;
